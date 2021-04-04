@@ -4,3 +4,7 @@ vvp -n wave -lxt2
 vvp test_ALU
 
 gtkwave wave.vcd
+
+
+
+$display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ ", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);

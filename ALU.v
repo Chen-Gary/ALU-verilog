@@ -21,9 +21,11 @@ module alu ( instruction, regA, regB, result, flags );
     reg [5:0] op, funct;
     reg [31:0] rs_reg, rt_reg;           // `rd` not used
     reg [4:0] rs_addr, rt_addr;          // `rd` not used
+    reg [15:0] imm_origin;
+    reg [31:0] imm_signExtended;
 
 
-    // trigger when `instruction` changes
+    // trigger when `instruction` or `regA` or `regB` changes
     always @( instruction, regA, regB ) begin
 
         // initialize (avoid latches)
@@ -36,44 +38,60 @@ module alu ( instruction, regA, regB, result, flags );
         rt_addr = instruction [20:16];
         // rd_addr = ...; shamt = ...;
         funct = instruction [5:0];        // although for I-type instruction there is no `funct`
+        imm_origin = instruction [15:0];
+
+
+        // sign extend imm
+        if (imm_origin[15] == 1'b0) imm_signExtended = { {16{1'b0}}, imm_origin };
+        else imm_signExtended = { {16{1'b1}}, imm_origin };
 
 
         // fetch value from register array
         // set rs_reg
         if (rs_addr == 5'b00000) rs_reg = regA;
-        else if (rs_addr == 5'b00001) rs_reg = regB;
-        else begin
-            $display("Invalid rs_addr: %b", rs_addr); 
-            $finish;
-        end
+        else rs_reg = regB;
+        // else if (rs_addr == 5'b00001) rs_reg = regB;
+        // else begin
+        //     $display("Invalid rs_addr: %b", rs_addr); 
+        //     $finish;
+        // end
 
         // set rt_reg
         if (rt_addr == 5'b00000) rt_reg = regA;
-        else if (rt_addr == 5'b00001) rt_reg = regB;
-        else begin
-            $display("Invalid rt_addr: %b", rt_addr); 
-            $finish;
-        end
+        else rt_reg = regB;
+        // else if (rt_addr == 5'b00001) rt_reg = regB;
+        // else begin
+        //     $display("Invalid rt_addr: %b", rt_addr); 
+        //     $finish;
+        // end
 
 
         // identify and execute the instruction
         // 1.1 add
         if (op==6'b000000 && funct==6'b100000) begin
             result = rs_reg + rt_reg;
+
             // check overflow
-            //...
+            if (rs_reg[31] == rt_reg[31] && result[31] != rs_reg[31]) begin
+                flags[0] = 1'b1;
+            end
         end
         // 1.2 addi
         else if (op==6'b001000) begin
-            
+            result = rs_reg + imm_signExtended;
+
+            // check overflow
+            if (rs_reg[31] == imm_signExtended[31] && result[31] != rs_reg[31]) begin
+                flags[0] = 1'b1;
+            end
         end
         // 1.3 addu
         else if (op==6'b000000 && funct==6'b100001) begin
-            
+            result = rs_reg + rt_reg;
         end
         // 1.4 addiu
         else if (op==6'b001001) begin
-            
+            result = rs_reg + imm_signExtended;
         end
         // 2.1 sub
         else if (op==6'b000000 && funct==6'b100010) begin
