@@ -84,6 +84,41 @@ module alu_test;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addiu 200 + 100", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
+        $display("");
+        // sub 99 - 25 = 74
+        instruction <= 32'b000000_00000_00001_0000000001_100010;
+        regA <= 32'd99;
+        regB <= 32'd25;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sub 99 - 25 = 74", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sub -39 - (-65) = 26
+        instruction <= 32'b000000_00001_00000_0000000001_100010;
+        regA <= -32'd65;
+        regB <= -32'd39;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sub -39 - (-65) = 26", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sub -2147483640 - 2147483641 overflow
+        instruction <= 32'b000000_00000_00001_0000000001_100010;
+        regA <= -32'd2147483640;
+        regB <=  32'd2147483641;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sub -2147483640 - 2147483641 overflow", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sub 2147483640 - (-2147483641) overflow
+        instruction <= 32'b000000_00000_00001_0000000001_100010;
+        regA <=  32'd2147483640;
+        regB <= -32'd2147483641;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sub 2147483640 - (-2147483641) overflow", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // subu 50 - 120 = -70
+        instruction <= 32'b000000_00000_00001_0000000001_100011;
+        regA <= 32'd50;
+        regB <= 32'd120;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ subu 50 - 120 = -70", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
         //$display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
         #10;

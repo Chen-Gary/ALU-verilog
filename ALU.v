@@ -95,11 +95,16 @@ module alu ( instruction, regA, regB, result, flags );
         end
         // 2.1 sub
         else if (op==6'b000000 && funct==6'b100010) begin
-            
+            result = rs_reg - rt_reg;
+
+            // check overflow
+            if (rs_reg[31] != rt_reg[31] && result[31] != rs_reg[31]) begin
+                flags[0] = 1'b1;
+            end
         end
         // 2.2 subu
         else if (op==6'b000000 && funct==6'b100011) begin
-            
+            result = rs_reg - rt_reg;
         end
         // 4.1 and
         else if (op==6'b000000 && funct==6'b100100) begin
