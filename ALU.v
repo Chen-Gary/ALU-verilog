@@ -76,50 +76,98 @@ module alu ( instruction, regA, regB, result, flags );
             
         end
         // 2.2 subu
-
+        else if (op==6'b000000 && funct==6'b100011) begin
+            
+        end
         // 4.1 and
-
+        else if (op==6'b000000 && funct==6'b100100) begin
+            
+        end
         // 4.2 andi
-
+        else if (op==6'b001100) begin
+            
+        end
         // 4.3 nor
-
+        else if (op==6'b000000 && funct==6'b100111) begin
+            
+        end
         // 4.5 or
-
+        else if (op==6'b000000 && funct==6'b100101) begin
+            
+        end
         // 4.6 ori
-
+        else if (op==6'b001101) begin
+            
+        end
         // 4.7 xor
-
+        else if (op==6'b000000 && funct==6'b100110) begin
+            
+        end
         // 4.8 xori
-
+        else if (op==6'b001110) begin
+            
+        end
         // 5.1 beq
-
+        else if (op==6'b000100) begin
+            
+        end
         // 5.2 bne
-
+        else if (op==6'b000101) begin
+            
+        end
         // 5.3 slt
-
+        else if (op==6'b000000 && funct==6'b101010) begin
+            
+        end
         // 5.4 slti
-
+        else if (op==6'b001010) begin
+            
+        end
         // 5.5 sltiu
-
+        else if (op==6'b001011) begin
+            
+        end
         // 5.6 sltu
-
+        else if (op==6'b000000 && funct==6'b101011) begin
+            
+        end
         // 6.1 lw
-
+        else if (op==6'b100011) begin
+            
+        end
         // 6.2 sw
-
+        else if (op==6'b101011) begin
+            
+        end
         // 7.1 sll
-
+        else if (op==6'b000000 && funct==6'b000000) begin
+            
+        end
         // 7.2 sllv
-
+        else if (op==6'b000000 && funct==6'b000100) begin
+            
+        end
         // 7.3 srl
-
+        else if (op==6'b000000 && funct==6'b000010) begin
+            
+        end
         // 7.4 srlv
-
+        else if (op==6'b000000 && funct==6'b000110) begin
+            
+        end
         // 7.5 sra
-
+        else if (op==6'b000000 && funct==6'b000011) begin
+            
+        end
         // 7.6 srav
-
-
+        else if (op==6'b000000 && funct==6'b000111) begin
+            
+        end
+        // Unrecognized instruction
+        else begin
+            $display("Unrecognized instruction: %b", instruction); 
+            $finish;
+        end
     end
 
 endmodule
