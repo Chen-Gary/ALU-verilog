@@ -1,0 +1,9 @@
+*
+
+!.gitignore
+
+!ALU.v
+!test_ALU.v
+
+!compile_command.txt
+!instruction_backup.txt

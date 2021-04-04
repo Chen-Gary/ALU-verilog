@@ -1,0 +1,6 @@
+iverilog -o test_ALU -y ./ test_ALU.v
+
+vvp -n wave -lxt2
+vvp test_ALU
+
+gtkwave wave.vcd
