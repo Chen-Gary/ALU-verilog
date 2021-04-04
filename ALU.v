@@ -11,7 +11,8 @@
 
 module alu ( instruction, regA, regB, result, flags );
 
-    input [31:0] instruction, regA, regB;
+    input [31:0] instruction;
+    input [31:0] regA, regB;
 
     output reg [31:0] result;
     output reg [2:0] flags;
@@ -22,9 +23,10 @@ module alu ( instruction, regA, regB, result, flags );
     reg [4:0] rs_addr, rt_addr;          // `rd` not used
 
 
-    always @( instruction ) begin
+    // trigger when `instruction` changes
+    always @( instruction, regA, regB ) begin
 
-        // initialize
+        // initialize (avoid latches)
         result = { 32{1'b0} };
         flags = { 3{1'b0} };
 
@@ -57,7 +59,9 @@ module alu ( instruction, regA, regB, result, flags );
         // identify and execute the instruction
         // 1.1 add
         if (op==6'b000000 && funct==6'b100000) begin
-            //$display("1.1 add");
+            result = rs_reg + rt_reg;
+            // check overflow
+            //...
         end
         // 1.2 addi
         else if (op==6'b001000) begin
