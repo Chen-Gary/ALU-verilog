@@ -23,6 +23,7 @@ module alu ( instruction, regA, regB, result, flags );
     reg [4:0] rs_addr, rt_addr;          // `rd` not used
     reg [15:0] imm_origin;
     reg [31:0] imm_signExtended;
+    reg [31:0] imm_zeroExtended;
 
 
     // trigger when `instruction` or `regA` or `regB` changes
@@ -44,6 +45,8 @@ module alu ( instruction, regA, regB, result, flags );
         // sign extend imm
         if (imm_origin[15] == 1'b0) imm_signExtended = { {16{1'b0}}, imm_origin };
         else imm_signExtended = { {16{1'b1}}, imm_origin };
+        // zero extend imm
+        imm_zeroExtended = { {16{1'b0}}, imm_origin };
 
 
         // fetch value from register array
@@ -108,31 +111,31 @@ module alu ( instruction, regA, regB, result, flags );
         end
         // 4.1 and
         else if (op==6'b000000 && funct==6'b100100) begin
-            
+            result = rs_reg & rt_reg;
         end
         // 4.2 andi
         else if (op==6'b001100) begin
-            
+            result = rs_reg & imm_zeroExtended;
         end
         // 4.3 nor
         else if (op==6'b000000 && funct==6'b100111) begin
-            
+            result = ~(rs_reg | rt_reg);
         end
         // 4.5 or
         else if (op==6'b000000 && funct==6'b100101) begin
-            
+            result = rs_reg | rt_reg;
         end
         // 4.6 ori
         else if (op==6'b001101) begin
-            
+            result = rs_reg | imm_zeroExtended;
         end
         // 4.7 xor
         else if (op==6'b000000 && funct==6'b100110) begin
-            
+            result = rs_reg ^ rt_reg;
         end
         // 4.8 xori
         else if (op==6'b001110) begin
-            
+            result = rs_reg ^ imm_zeroExtended;
         end
         // 5.1 beq
         else if (op==6'b000100) begin
