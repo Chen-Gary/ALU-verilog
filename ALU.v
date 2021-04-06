@@ -32,6 +32,9 @@ module alu ( instruction, regA, regB, result, flags );
         // initialize (avoid latches)
         result = { 32{1'b0} };
         flags = { 3{1'b0} };
+        // initialization (not compulsory)
+        rs_reg = { 32{1'b0} };
+        rt_reg = { 32{1'b0} };
 
         // parsing the instruction
         op = instruction [31:26];
@@ -52,8 +55,7 @@ module alu ( instruction, regA, regB, result, flags );
         // fetch value from register array
         // set rs_reg
         if (rs_addr == 5'b00000) rs_reg = regA;
-        else rs_reg = regB;
-        // else if (rs_addr == 5'b00001) rs_reg = regB;
+        else if (rs_addr == 5'b00001) rs_reg = regB;
         // else begin
         //     $display("Invalid rs_addr: %b", rs_addr); 
         //     $finish;
@@ -61,8 +63,7 @@ module alu ( instruction, regA, regB, result, flags );
 
         // set rt_reg
         if (rt_addr == 5'b00000) rt_reg = regA;
-        else rt_reg = regB;
-        // else if (rt_addr == 5'b00001) rt_reg = regB;
+        else if (rt_addr == 5'b00001) rt_reg = regB;
         // else begin
         //     $display("Invalid rt_addr: %b", rt_addr); 
         //     $finish;
