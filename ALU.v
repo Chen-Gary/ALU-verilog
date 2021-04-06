@@ -4,9 +4,9 @@
 // 00001 ===> regB
 
 
-// flags[2] = zero flag                 : beq, bne
+// flags[0] = zero flag                 : beq, bne
 // flags[1] = negative flag             : slt, slti, sltiu, sltu
-// flags[0] = overflow flag             : add, addi, sub
+// flags[2] = overflow flag             : add, addi, sub
 
 
 module alu ( instruction, regA, regB, result, flags );
@@ -76,7 +76,7 @@ module alu ( instruction, regA, regB, result, flags );
 
             // check overflow
             if (rs_reg[31] == rt_reg[31] && result[31] != rs_reg[31]) begin
-                flags[0] = 1'b1;
+                flags[2] = 1'b1;
             end
         end
         // 1.2 addi
@@ -85,7 +85,7 @@ module alu ( instruction, regA, regB, result, flags );
 
             // check overflow
             if (rs_reg[31] == imm_signExtended[31] && result[31] != rs_reg[31]) begin
-                flags[0] = 1'b1;
+                flags[2] = 1'b1;
             end
         end
         // 1.3 addu
@@ -102,7 +102,7 @@ module alu ( instruction, regA, regB, result, flags );
 
             // check overflow
             if (rs_reg[31] != rt_reg[31] && result[31] != rs_reg[31]) begin
-                flags[0] = 1'b1;
+                flags[2] = 1'b1;
             end
         end
         // 2.2 subu

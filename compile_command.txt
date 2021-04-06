@@ -7,5 +7,10 @@ vvp test_ALU
 gtkwave wave.vcd
 
 
+https://www.hdlworks.com/hdl_corner/verilog_ref/items/SignedArithmetic.htm
+
+https://iverilog.fandom.com/wiki/Getting_Started
+
+
 
 $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ ", instruction, testalu.op, testalu.funct, $signed(result), result, flags[2], flags[1], flags[0], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
