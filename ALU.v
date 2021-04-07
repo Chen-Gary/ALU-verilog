@@ -21,6 +21,7 @@ module alu ( instruction, regA, regB, result, flags );
     reg [5:0] op, funct;
     reg [31:0] rs_reg, rt_reg;           // `rd` not used
     reg [4:0] rs_addr, rt_addr;          // `rd` not used
+    reg [4:0] shamt;
     reg [15:0] imm_origin;
     reg [31:0] imm_signExtended;
     reg [31:0] imm_zeroExtended;
@@ -40,7 +41,8 @@ module alu ( instruction, regA, regB, result, flags );
         op = instruction [31:26];
         rs_addr = instruction [25:21];
         rt_addr = instruction [20:16];
-        // rd_addr = ...; shamt = ...;
+        // rd_addr = instruction [15:11]; 
+        shamt = instruction [10:6];
         funct = instruction [5:0];        // although for I-type instruction there is no `funct`
         imm_origin = instruction [15:0];
 
@@ -211,27 +213,27 @@ module alu ( instruction, regA, regB, result, flags );
         end
         // 7.1 sll
         else if (op==6'b000000 && funct==6'b000000) begin
-            
+            result = rt_reg << $unsigned(shamt);
         end
         // 7.2 sllv
         else if (op==6'b000000 && funct==6'b000100) begin
-            
+            result = rt_reg << $unsigned(rs_reg);
         end
         // 7.3 srl
         else if (op==6'b000000 && funct==6'b000010) begin
-            
+            result = rt_reg >> $unsigned(shamt);
         end
         // 7.4 srlv
         else if (op==6'b000000 && funct==6'b000110) begin
-            
+            result = rt_reg >> $unsigned(rs_reg);
         end
         // 7.5 sra
         else if (op==6'b000000 && funct==6'b000011) begin
-            
+            result = $signed(rt_reg) >>> $unsigned(shamt);
         end
         // 7.6 srav
         else if (op==6'b000000 && funct==6'b000111) begin
-            
+            result = $signed(rt_reg) >>> $unsigned(rs_reg);
         end
         // Unrecognized instruction
         else begin

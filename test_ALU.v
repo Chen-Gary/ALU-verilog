@@ -345,8 +345,105 @@ module alu_test;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sw", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
+        $display("");
+        // sll abcd1234(h) << 8
+        instruction <= 32'b000000_11111_00000_11111_01000_000000;
+        regA <= 32'habcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sll abcd1234(h) << 8", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sll abcd1234(h) << 16
+        instruction <= 32'b000000_11111_00000_11111_10000_000000;
+        regA <= 32'habcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sll abcd1234(h) << 16", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sllv abcd1234(h) << 8
+        instruction <= 32'b000000_00001_00000_11111_00000_000100;
+        regA <= 32'habcd1234;
+        regB <= 32'd8;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sllv abcd1234(h) << 8", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sllv abcd1234(h) << 24
+        instruction <= 32'b000000_00001_00000_11111_00000_000100;
+        regA <= 32'habcd1234;
+        regB <= 32'd24;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sllv abcd1234(h) << 24", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // srl 1bcd1234(h) >> 4
+        instruction <= 32'b000000_11111_00000_11111_00100_000010;
+        regA <= 32'h1bcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ srl 1bcd1234(h) >> 4", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // srl abcd1234(h) >> 8
+        instruction <= 32'b000000_11111_00000_11111_01000_000010;
+        regA <= 32'habcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ srl abcd1234(h) >> 8", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // srlv fbcd1234(h) >> 24
+        instruction <= 32'b000000_00001_00000_11111_00000_000110;
+        regA <= 32'hfbcd1234;
+        regB <= 32'd24;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ srlv fbcd1234(h) >> 24", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sra 1bcd1234(h) >> 8
+        instruction <= 32'b000000_11111_00000_11111_01000_000011;
+        regA <= 32'h1bcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sra 1bcd1234(h) >> 8", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // sra abcd1234(h) >> 8
+        instruction <= 32'b000000_11111_00000_11111_01000_000011;
+        regA <= 32'habcd1234;
+        regB <= 32'd0;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ sra abcd1234(h) >> 8", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // srav 2bcd1234(h) >> 16
+        instruction <= 32'b000000_00001_00000_11111_00000_000111;
+        regA <= 32'h2bcd1234;
+        regB <= 32'd16;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ srav 2bcd1234(h) >> 16", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // srav 8bcd1234(h) >> 16
+        instruction <= 32'b000000_00001_00000_11111_00000_000111;
+        regA <= 32'h8bcd1234;
+        regB <= 32'd16;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ srav 8bcd1234(h) >> 16", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
 
+
+        /* 
+         * You may add more tests here...
+         * The added tests should follow the following format...
+         * You may refer to the above tests for examples...
+        */
+
+        // instruction <= ... ;
+        // regA <= ... ;
+        // regB <= ... ;
+        // #10;
+        // $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ <test description...>", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // Recompile and run the code, you will see the test result in the last row of the table.
+
+
+
+        $display("");
+        $display("Testing finished.");
+        $display("");
         //$display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
         #10;
         $finish;
