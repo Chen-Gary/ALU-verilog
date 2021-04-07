@@ -142,34 +142,33 @@ module alu ( instruction, regA, regB, result, flags );
         else if (op==6'b000100) begin
             // set zero flag (flags[0])
             if ((rs_reg - rt_reg) == 0) begin
-                flags[0] = 1'b1;
+                flags[0] = 1'b1;            // to brench
             end
             else begin
-                flags[0] = 1'b0;
+                flags[0] = 1'b0;            // not to brench
             end
         end
         // 5.2 bne
-        // (same as beq)
         else if (op==6'b000101) begin
             // set zero flag (flags[0])
             if ((rs_reg - rt_reg) == 0) begin
-                flags[0] = 1'b1;
+                flags[0] = 1'b0;            // not to brench
             end
             else begin
-                flags[0] = 1'b0;
+                flags[0] = 1'b1;            // to brench
             end
         end
-        // I am not sure about negative flag (flags[1]) ????
         // 5.3 slt
         else if (op==6'b000000 && funct==6'b101010) begin
+            //result = rs_reg - rt_reg;
             // set negative flag (flags[1])
             if ( $signed(rs_reg) < $signed(rt_reg) ) begin
                 flags[1] = 1'b1;
-                result = { {31{1'b0}}, 1'b1 };
+                //result = { {31{1'b0}}, 1'b1 };
             end
             else begin
                 flags[1] = 1'b0;
-                result = { 32{1'b0} };
+                //result = { 32{1'b0} };
             end
         end
         // 5.4 slti

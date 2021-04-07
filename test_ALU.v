@@ -190,14 +190,14 @@ module alu_test;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ beq (not equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
         // bne (equal)
-        instruction <= 32'b000100_00001_00001_0000000000_000000;
+        instruction <= 32'b000101_00001_00001_0000000000_000000;
         regA <= 32'd1314;
         regB <= 32'd1314;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ bne (equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
         // bne (not equal)
-        instruction <= 32'b000100_00001_00000_0000000000_000000;
+        instruction <= 32'b000101_00001_00000_0000000000_000000;
         regA <= 32'd1314;
         regB <= 32'd1314520;
         #10;
