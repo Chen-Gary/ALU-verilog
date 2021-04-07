@@ -54,12 +54,14 @@ module alu_test;
         $display("");
         // addi 19 + (-100)
         instruction <= 32'b001000_00001_00000_1111111110011100;
+        regA <= 32'd0;
         regB <= 32'd19;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addi 19 + (-100)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
         // addi -2147483640 + (-100) overflow
         instruction <= 32'b001000_00001_00000_1111111110011100;
+        regA <= 32'd0;
         regB <= -32'd2147483640;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addi -2147483640 + (-100) overflow", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
@@ -67,6 +69,7 @@ module alu_test;
         // addi 2147483640 + 100 overflow
         instruction <= 32'b001000_00000_00000_0000000001100100;
         regA <= 32'd2147483640;
+        regB <= 32'd0;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addi 2147483640 + 100 overflow", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
@@ -81,6 +84,7 @@ module alu_test;
         // addiu 200 + 100
         instruction <= 32'b001001_00000_00000_0000000001100100;
         regA <= 32'd200;
+        regB <= 32'd0;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addiu 200 + 100", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
@@ -169,6 +173,113 @@ module alu_test;
         regB <= 32'hffffffff;
         #10;
         $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ xori ffffffff ^ 0000ffff = ffff0000", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        $display("");
+        // beq (equal)
+        instruction <= 32'b000100_00000_00001_0000000000_000000;
+        regA <= 32'd520;
+        regB <= 32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ beq (equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // beq (not equal)
+        instruction <= 32'b000100_00000_00001_0000000000_000000;
+        regA <= 32'd520;
+        regB <= 32'd521;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ beq (not equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // bne (equal)
+        instruction <= 32'b000100_00001_00001_0000000000_000000;
+        regA <= 32'd1314;
+        regB <= 32'd1314;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ bne (equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // bne (not equal)
+        instruction <= 32'b000100_00001_00000_0000000000_000000;
+        regA <= 32'd1314;
+        regB <= 32'd1314520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ bne (not equal)", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        $display("");
+        // slt 520 < 1314? y
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'd520;
+        regB <= 32'd1314;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt 520 < 1314? y", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt 1314 < 520? n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'd1314;
+        regB <= 32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt 1314 < 520? n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt -1314 < 520? y
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= -32'd1314;
+        regB <= 32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt -1314 < 520? y", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt 520 < -1314? n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'd520;
+        regB <= -32'd1314;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt 520 < -1314? n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt -520 < 1314? y
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= -32'd520;
+        regB <= 32'd1314;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt -520 < 1314? y", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt 1314 < -520? n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'd1314;
+        regB <= -32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt 1314 < -520? n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt -1314 < -520? y
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= -32'd1314;
+        regB <= -32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt -1314 < -520? y", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt -520 < -1314? n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= -32'd520;
+        regB <= -32'd1314;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt -520 < -1314? n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt -520 < -520 n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= -32'd520;
+        regB <= -32'd520;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt -520 < -520 n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt ffffffff(h) < 00000000(h)? (-1 < 0?) y
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'hffffffff;
+        regB <= 32'h00000000;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt ffffffff(h) < 00000000(h)? (-1 < 0?) y", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
+
+        // slt ffffffff(h) < 80000000(h)? (-1 < -2147483648?) n
+        instruction <= 32'b000000_00000_00001_0000000000_101010;
+        regA <= 32'hffffffff;
+        regB <= 32'h80000000;
+        #10;
+        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ slt ffffffff(h) < 80000000(h)? (-1 < -2147483648?) n", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
 
 
         //$display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h", instruction, testalu.op, testalu.funct, $signed(result), result, flags[0], flags[1], flags[2], $signed(testalu.regA), $signed(testalu.regB), testalu.regA, testalu.regB);
