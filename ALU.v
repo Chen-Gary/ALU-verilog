@@ -173,23 +173,41 @@ module alu ( instruction, regA, regB, result, flags );
         end
         // 5.4 slti
         else if (op==6'b001010) begin
-            
+            // set negative flag (flags[1])
+            if ( $signed(rs_reg) < $signed(imm_signExtended) ) begin
+                flags[1] = 1'b1;
+            end
+            else begin
+                flags[1] = 1'b0;
+            end
         end
         // 5.5 sltiu
         else if (op==6'b001011) begin
-            
+            // set negative flag (flags[1])
+            if ( $unsigned(rs_reg) < $unsigned(imm_signExtended) ) begin
+                flags[1] = 1'b1;
+            end
+            else begin
+                flags[1] = 1'b0;
+            end
         end
         // 5.6 sltu
         else if (op==6'b000000 && funct==6'b101011) begin
-            
+            // set negative flag (flags[1])
+            if ( $unsigned(rs_reg) < $unsigned(rt_reg) ) begin
+                flags[1] = 1'b1;
+            end
+            else begin
+                flags[1] = 1'b0;
+            end
         end
         // 6.1 lw
         else if (op==6'b100011) begin
-            
+            result = rs_reg + imm_signExtended;
         end
         // 6.2 sw
         else if (op==6'b101011) begin
-            
+            result = rs_reg + imm_signExtended;
         end
         // 7.1 sll
         else if (op==6'b000000 && funct==6'b000000) begin
