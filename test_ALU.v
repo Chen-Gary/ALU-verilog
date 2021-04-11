@@ -79,7 +79,7 @@ module alu_test;
         regA <= 32'd2147483640;
         regB <= 32'd2147483641;
         #10;
-        $display("   %h : %b : %b :%d :  %h :         %b :             %b :             %b :%d :%d : %h : %h ------ addu 2147483640 + 2147483641 = 4294967281", instruction, testalu.op, testalu.funct, (result), result, flags[0], flags[1], flags[2], (testalu.regA), (testalu.regB), testalu.regA, testalu.regB);
+        $display("   %h : %b : %b : %d :  %h :         %b :             %b :             %b : %d : %d : %h : %h ------ addu 2147483640 + 2147483641 = 4294967281", instruction, testalu.op, testalu.funct, (result), result, flags[0], flags[1], flags[2], (testalu.regA), (testalu.regB), testalu.regA, testalu.regB);
 
         // addiu 200 + 100
         instruction <= 32'b001001_00000_00000_0000000001100100;
